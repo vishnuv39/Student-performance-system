@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useMemo } from "react";
 import {
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -14,8 +15,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import StudentDashboard from "./components/StudentDashboard";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HomeIcon from "@mui/icons-material/Home";
-import SchoolIcon from "@mui/icons-material/School";
-import PersonIcon from "@mui/icons-material/Person";
+import SchoolIcon from "@mui/icons-material/School";          // Admin
+import PersonIcon from "@mui/icons-material/Person";          // Student
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 import { useSelector } from "react-redux";
@@ -62,6 +63,7 @@ function App() {
         <BarChartIcon className="sidebar-logo-icon" />
         <span>Performance</span>
       </div>
+
     </Box>
   );
 
@@ -69,35 +71,37 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <div className="app-shell">
-        <Drawer
-          variant="permanent"
-          anchor="left"
-          PaperProps={{
-            sx: {
-              width: "350px",
-              background: "rgba(0,0,0,0.25)",
-              backdropFilter: "blur(20px)",
-              borderRight: "1px solid rgba(255,255,255,0.1)",
-            },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
+      <Router>
+        <div className="app-shell">
+          <Drawer
+            variant="permanent"
+            anchor="left"
+            PaperProps={{
+              sx: {
+                width: "350px",
+                background: "rgba(0,0,0,0.25)",
+                backdropFilter: "blur(20px)",
+                borderRight: "1px solid rgba(255,255,255,0.1)",
+              },
+            }}
+          >
+            {drawerContent}
+          </Drawer>
 
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Login />} />
-            {role === "admin" && (
-              <Route path="/admin" element={<AdminDashboard />} />
-            )}
-            {role === "student" && (
-              <Route path="/student" element={<StudentDashboard />} />
-            )}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
-      </div>
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Login />} />
+              {role === "admin" && (
+                <Route path="/admin" element={<AdminDashboard />} />
+              )}
+              {role === "student" && (
+                <Route path="/student" element={<StudentDashboard />} />
+              )}
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
     </ThemeProvider>
   );
 }
